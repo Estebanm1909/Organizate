@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
@@ -55,21 +54,9 @@ class AuthService {
     }
   }
 
-  // Iniciar sesión con Facebook
+  // Iniciar sesión con Facebook (deshabilitado en prototipo)
   Future<UserCredential?> signInWithFacebook() async {
-    try {
-      final LoginResult result = await FacebookAuth.instance.login();
-      if (result.status == LoginStatus.success) {
-        final OAuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.tokenString);
-        return await _auth.signInWithCredential(credential);
-      } else {
-        print("Inicio de sesión con Facebook cancelado.");
-        return null;
-      }
-    } catch (e) {
-      print("Error al iniciar sesión con Facebook: $e");
-      return null;
-    }
+    return null;
   }
 
   // Cerrar sesión
@@ -77,7 +64,6 @@ class AuthService {
     try {
       await _auth.signOut(); // Cierra sesión en Firebase
       await _googleSignIn.signOut(); // Cierra sesión en Google
-      await FacebookAuth.instance.logOut(); // Cierra sesión en Facebook
     } catch (e) {
       print("Error al cerrar sesión: $e");
     }

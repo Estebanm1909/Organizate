@@ -11,8 +11,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Inicializar el servicio de notificaciones
-  await NotificationService().init();
 
   runApp(
     ChangeNotifierProvider(
@@ -20,6 +18,9 @@ void main() async {
       child: const MyApp(),
     ),
   );
+
+  // Inicializar el servicio de notificaciones sin bloquear el renderizado inicial de la UI
+  NotificationService().init();
 }
 
 class MyApp extends StatelessWidget {
